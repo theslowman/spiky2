@@ -40,7 +40,7 @@ public class BirdExtreme extends Bird{
             position.y = 0;
         }
         velocity.scl(1 / dt);
-        bounds.setPosition(position.x, position.y);
+        bounds.setPosition(position.x + 25, position.y + 25);
 
     }
 
