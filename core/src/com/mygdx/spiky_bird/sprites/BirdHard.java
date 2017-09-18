@@ -9,18 +9,18 @@ import com.mygdx.spiky_bird.birdBehaviour.BirdBehaviour;
  * Created by commandcentral on 8/6/2017.
  */
 
-public class Bird {
+public class BirdHard extends Bird{
     private static final int GRAVITY = -15;
 
-    private static final int MOVEMENT = 100;
+    private static final int MOVEMENT = 150;
     private Vector3 position;
     private Vector3 velocity;
     private Texture bird;
     private Circle bounds;
     private BirdBehaviour birdBehaviour;
 
-    public Bird(){}
-    public Bird(int x, int y) {
+
+    public BirdHard(int x, int y) {
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
         bird = new Texture("bird_1.png");

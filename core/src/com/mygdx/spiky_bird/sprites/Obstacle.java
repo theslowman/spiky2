@@ -49,8 +49,8 @@ public class Obstacle {
         positionTop = new Vector2(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
         positionBottom = new Vector2(x, positionTop.y - TUBE_GAP - top.getHeight());
 
-        boundTop = new Rectangle(positionTop.x, positionTop.y, top.getWidth(), top.getHeight());
-        boundBottom = new Rectangle(positionBottom.x, positionBottom.y, bottom.getWidth(), bottom.getHeight());
+        boundTop = new Rectangle(positionTop.x, positionTop.y, 50, top.getHeight());
+        boundBottom = new Rectangle(positionBottom.x, positionBottom.y, 50, bottom.getHeight());
     }
 
     public Texture getTop() {
@@ -70,8 +70,8 @@ public class Obstacle {
     }
 
     public void reposition(float x) {
-        getPositionTop().set(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
-        getPositionBottom().set(x, positionTop.y - TUBE_GAP - top.getHeight());
+        positionTop.set(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
+        positionBottom.set(x, positionTop.y - TUBE_GAP - top.getHeight());
         boundTop.setPosition(positionTop.x, positionTop.y);
         boundBottom.setPosition(positionBottom.x, positionBottom.y);
     }
@@ -81,8 +81,19 @@ public class Obstacle {
     }
 
     public boolean collides(Bird bird) {
-        System.out.println(Intersector.overlaps(bird.getBounds(), boundBottom));
-        System.out.println(Intersector.overlaps(bird.getBounds(), boundTop));
+
+        if (Intersector.overlaps(bird.getBounds(), boundBottom)){
+//            System.out.println("top");
+//            System.out.println("Bird: "+bird.getBounds());
+//            System.out.println("Bottom:"+ boundBottom);
+//            System.out.println("Top:"+ boundTop);
+        }
+        if (Intersector.overlaps(bird.getBounds(), boundTop)){
+//            System.out.println("top");
+//            System.out.println("Bird: "+bird.getBounds());
+//            System.out.println("Bottom:"+ boundBottom);
+//            System.out.println("Top:"+ boundTop);
+        }
         return Intersector.overlaps(bird.getBounds(), boundBottom) || Intersector.overlaps(bird.getBounds(), boundTop);
     }
 }

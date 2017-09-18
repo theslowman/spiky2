@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.spiky_bird.SpikyBird;
 import com.mygdx.spiky_bird.sprites.BirdAnimation;
 import com.mygdx.spiky_bird.sprites.Obstacle;
@@ -25,14 +28,18 @@ public class PlayState extends State {
     private com.mygdx.spiky_bird.sprites.Bird bird;
     private Obstacle obstacle;
     float time;
+    private Viewport viewport;
 
     public PlayState(GameStateManager gameStateManager) {
         super(gameStateManager);
+
         background = new Texture("background-city.jpg");
-        bird = new com.mygdx.spiky_bird.sprites.Bird(50, 100);
+//        bird = new com.mygdx.spiky_bird.sprites.Bird(50, 100);
+        bird = new com.mygdx.spiky_bird.sprites.BirdHard(50, 100);
+        bird = new com.mygdx.spiky_bird.sprites.BirdExtreme(50, 100);
         camera.setToOrtho(false, SpikyBird.WIDTH / 2, SpikyBird.HEIGHT / 2);
         obstacle = new Obstacle(FIRST_OBSTACLE);
-
+        viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         for (int i = 1; i <= OBSTACLE_COUNT; i++) {
             obstacleList.add(new Obstacle(i * (OBSTACLE_SPACING + Obstacle.getTubeWidth())));
         }
@@ -43,17 +50,21 @@ public class PlayState extends State {
     protected void handleInput() {
         if (Gdx.input.justTouched()) {
             bird.jump();
+            Sound sound = Gdx.audio.newSound(Gdx.files.internal("effects/sound/jump.wav"));
+            sound.play();
         }
     }
+
+
 
     @Override
     public void update(float dt) {
 
         handleInput();
         bird.update(dt);
-        Sound sound;
 
         camera.position.x = bird.getPosition().x + 100;
+        viewport.update(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         for (Obstacle obstacle : obstacleList) {
             if (camera.position.x - (camera.viewportWidth / 2) > obstacle.getPositionTop().x + obstacle.getTop().getWidth()) {
                 obstacle.reposition(obstacle.getPositionTop().x + ((Obstacle.getTubeWidth() + OBSTACLE_SPACING) * OBSTACLE_COUNT));
